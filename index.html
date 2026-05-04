@@ -43,43 +43,15 @@
             margin: 30px auto;
         }
 
-        .video-wrapper {
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 3px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
-            margin-bottom: 30px;
-            display: none;
-        }
-
-        .responsive-iframe {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-
-        .responsive-iframe iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: 0;
-        }
-
-        .video-footer {
-            padding: 15px;
-            background: var(--card);
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
         .section-header {
             text-align: center;
             margin-bottom: 20px;
             font-size: 1.4rem;
             font-weight: 900;
             color: var(--text);
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 15px;
         }
 
         .episodes-container {
@@ -87,6 +59,7 @@
             padding: 25px;
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .episodes-grid {
@@ -99,25 +72,22 @@
             background: #252f44;
             color: white;
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 0;
+            padding: 20px 0;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
+            text-decoration: none;
+            text-align: center;
             cursor: pointer;
             transition: 0.3s ease;
+            display: block;
         }
 
         .ep-btn:hover {
             background: var(--primary);
             color: #000;
             transform: translateY(-3px);
-        }
-
-        .ep-btn.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(255, 152, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
         }
 
         footer {
@@ -131,22 +101,16 @@
 
 <header>
     <h1>🎬 صدى الطفولة</h1>
-    <p>مسلسل كابتن ماجد بجودة HD</p>
+    <p>مشاهدة مباشرة لمسلسل كابتن ماجد HD</p>
 </header>
 
 <div class="main-container">
     
-    <div id="videoContainer" class="video-wrapper">
-        <div class="responsive-iframe">
-            <iframe id="mainIframe" src="" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-        </div>
-        <div id="epTitle" class="video-footer"></div>
-    </div>
-
-    <div class="section-header">قائمة الحلقات</div>
+    <div class="section-header">اختر الحلقة للمشاهدة</div>
     
     <div class="episodes-container">
-        <div class="episodes-grid" id="buttonsGrid"></div>
+        <div class="episodes-grid" id="buttonsGrid">
+            </div>
     </div>
 
 </div>
@@ -156,7 +120,6 @@
 </footer>
 
 <script>
-    // قائمة الروابط المباشرة للحلقات
     const episodeLinks = [
         "https://cartoony.net/watch/297/4005", "https://cartoony.net/watch/297/4006", "https://cartoony.net/watch/297/4007",
         "https://cartoony.net/watch/297/4008", "https://cartoony.net/watch/297/4009", "https://cartoony.net/watch/297/4010",
@@ -180,31 +143,20 @@
     ];
 
     const grid = document.getElementById('buttonsGrid');
-    const container = document.getElementById('videoContainer');
-    const iframe = document.getElementById('mainIframe');
-    const titleDisp = document.getElementById('epTitle');
+    const adLink = 'https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a';
 
     episodeLinks.forEach((link, index) => {
-        const btn = document.createElement('button');
+        const btn = document.createElement('a');
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
-        btn.onclick = function() {
-            // فتح الإعلان
-            window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
-            
-            // تحديث الفيديو
-            container.style.display = 'block';
-            // نقوم بتحويل رابط المشاهدة العادي إلى رابط تضمين (Embed) إذا كان الموقع يدعم ذلك
-            // في حالة cartoony عادة ما يكون الاستبدال لـ /watch/ بـ /embed/
-            const embedLink = link.replace("/watch/", "/embed/");
-            iframe.src = embedLink;
-            
-            titleDisp.innerText = "أنت تشاهد الآن: الحلقة " + (index + 1);
-
-            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        btn.href = "#"; // نمنع الانتقال المباشر للتحكم عبر JS
+        
+        btn.onclick = function(e) {
+            e.preventDefault();
+            // فتح الإعلان في نافذة جديدة
+            window.open(adLink, '_blank');
+            // فتح الحلقة في نافذة جديدة أيضاً لضمان عملها
+            window.open(link, '_blank');
         };
         grid.appendChild(btn);
     });
