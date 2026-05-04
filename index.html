@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -157,14 +156,27 @@
 </footer>
 
 <script>
-    // معرفات الحلقات المستخرجة من الروابط التي أرسلتها
-    const ids = [
-        "4005", "4006", "4007", "4008", "4009", "4010", "4011", "4012", "4013", "4014",
-        "4015", "4016", "4017", "4018", "4019", "4020", "4021", "4022", "4023", "4024",
-        "4025", "4026", "4027", "4028", "4029", "4030", "4031", "4032", "4033", "4034",
-        "4035", "4036", "4037", "4038", "4039", "4040", "4041", "4042", "4043", "4044",
-        "4045", "4046", "4047", "4048", "4049", "4050", "4051", "4052", "4053", "4054",
-        "4055", "4056", "4057", "4058", "4059"
+    // قائمة الروابط المباشرة للحلقات
+    const episodeLinks = [
+        "https://cartoony.net/watch/297/4005", "https://cartoony.net/watch/297/4006", "https://cartoony.net/watch/297/4007",
+        "https://cartoony.net/watch/297/4008", "https://cartoony.net/watch/297/4009", "https://cartoony.net/watch/297/4010",
+        "https://cartoony.net/watch/297/4011", "https://cartoony.net/watch/297/4012", "https://cartoony.net/watch/297/4013",
+        "https://cartoony.net/watch/297/4014", "https://cartoony.net/watch/297/4015", "https://cartoony.net/watch/297/4016",
+        "https://cartoony.net/watch/297/4017", "https://cartoony.net/watch/297/4018", "https://cartoony.net/watch/297/4019",
+        "https://cartoony.net/watch/297/4020", "https://cartoony.net/watch/297/4021", "https://cartoony.net/watch/297/4022",
+        "https://cartoony.net/watch/297/4023", "https://cartoony.net/watch/297/4024", "https://cartoony.net/watch/297/4025",
+        "https://cartoony.net/watch/297/4026", "https://cartoony.net/watch/297/4027", "https://cartoony.net/watch/297/4028",
+        "https://cartoony.net/watch/297/4029", "https://cartoony.net/watch/297/4030", "https://cartoony.net/watch/297/4031",
+        "https://cartoony.net/watch/297/4032", "https://cartoony.net/watch/297/4033", "https://cartoony.net/watch/297/4034",
+        "https://cartoony.net/watch/297/4035", "https://cartoony.net/watch/297/4036", "https://cartoony.net/watch/297/4037",
+        "https://cartoony.net/watch/297/4038", "https://cartoony.net/watch/297/4039", "https://cartoony.net/watch/297/4040",
+        "https://cartoony.net/watch/297/4041", "https://cartoony.net/watch/297/4042", "https://cartoony.net/watch/297/4043",
+        "https://cartoony.net/watch/297/4044", "https://cartoony.net/watch/297/4045", "https://cartoony.net/watch/297/4046",
+        "https://cartoony.net/watch/297/4047", "https://cartoony.net/watch/297/4048", "https://cartoony.net/watch/297/4049",
+        "https://cartoony.net/watch/297/4050", "https://cartoony.net/watch/297/4051", "https://cartoony.net/watch/297/4052",
+        "https://cartoony.net/watch/297/4053", "https://cartoony.net/watch/297/4054", "https://cartoony.net/watch/297/4055",
+        "https://cartoony.net/watch/297/4056", "https://cartoony.net/watch/297/4057", "https://cartoony.net/watch/297/4058",
+        "https://cartoony.net/watch/297/4059"
     ];
 
     const grid = document.getElementById('buttonsGrid');
@@ -172,7 +184,7 @@
     const iframe = document.getElementById('mainIframe');
     const titleDisp = document.getElementById('epTitle');
 
-    ids.forEach((id, index) => {
+    episodeLinks.forEach((link, index) => {
         const btn = document.createElement('button');
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
@@ -180,9 +192,13 @@
             // فتح الإعلان
             window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
             
-            // تحديث الفيديو (ملاحظة: تأكد من أن الموقع cartoony يسمح بالـ Embed)
+            // تحديث الفيديو
             container.style.display = 'block';
-            iframe.src = "https://cartoony.net/embed/" + id;
+            // نقوم بتحويل رابط المشاهدة العادي إلى رابط تضمين (Embed) إذا كان الموقع يدعم ذلك
+            // في حالة cartoony عادة ما يكون الاستبدال لـ /watch/ بـ /embed/
+            const embedLink = link.replace("/watch/", "/embed/");
+            iframe.src = embedLink;
+            
             titleDisp.innerText = "أنت تشاهد الآن: الحلقة " + (index + 1);
 
             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
