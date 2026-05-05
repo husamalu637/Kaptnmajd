@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صدى الطفولة | كابتن ماجد HD</title>
+    <title>صدى الطفولة | الكابتن ماجد - الشبح</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,47 +19,58 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         header {
             width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 40px 0;
-            text-align: center;
+            padding: 40px 0; text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         header h1 { margin: 0; font-size: 2.2rem; font-weight: 900; }
-        header p { margin: 10px 0 0; opacity: 0.9; }
 
         .main-container {
-            max-width: 900px;
-            width: 95%;
-            margin: 30px auto;
+            max-width: 900px; width: 95%; margin: 30px auto;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--text);
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 15px;
-        }
-
-        .episodes-container {
-            background: var(--card);
-            padding: 25px;
+        .video-wrapper {
+            background: #000;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden; 
+            border: 3px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+            margin-bottom: 30px;
+            display: none;
+            position: relative;
+        }
+
+        .responsive-iframe {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+        }
+
+        .responsive-iframe iframe {
+            position: absolute;
+            /* القياس المعتمد لضبط المشغل */
+            top: -155px; 
+            left: 0;
+            width: 100%;
+            height: calc(100% + 155px); 
+            border: 0;
+        }
+
+        .video-footer {
+            padding: 15px;
+            background: var(--card);
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary);
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .episodes-grid {
@@ -71,48 +82,39 @@
         .ep-btn {
             background: #252f44;
             color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px 0;
+            padding: 15px 0;
             border-radius: 12px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            text-decoration: none;
-            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
             transition: 0.3s ease;
-            display: block;
         }
 
-        .ep-btn:hover {
-            background: var(--primary);
-            color: #000;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
-        }
+        .ep-btn:hover { background: var(--primary); color: #000; }
+        .ep-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-        footer {
-            margin: 40px 0;
-            opacity: 0.5;
-            font-size: 0.8rem;
-        }
+        footer { margin: 40px 0; opacity: 0.5; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>🎬 صدى الطفولة</h1>
-    <p>مشاهدة مباشرة لمسلسل كابتن ماجد HD</p>
+    <p>الكابتن ماجد الشبح - مشاهدة ممتعة</p>
 </header>
 
 <div class="main-container">
-    
-    <div class="section-header">اختر الحلقة للمشاهدة</div>
-    
-    <div class="episodes-container">
-        <div class="episodes-grid" id="buttonsGrid">
-            </div>
+    <div id="videoContainer" class="video-wrapper">
+        <div class="responsive-iframe">
+            <iframe id="mainIframe" src="" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+        <div id="epTitle" class="video-footer">اختر حلقة للبدء</div>
     </div>
 
+    <div class="episodes-container" style="background: var(--card); padding: 25px; border-radius: 20px;">
+        <div class="episodes-grid" id="buttonsGrid"></div>
+    </div>
 </div>
 
 <footer>
@@ -120,43 +122,33 @@
 </footer>
 
 <script>
-    const episodeLinks = [
-        "https://cartoony.net/watch/297/4005", "https://cartoony.net/watch/297/4006", "https://cartoony.net/watch/297/4007",
-        "https://cartoony.net/watch/297/4008", "https://cartoony.net/watch/297/4009", "https://cartoony.net/watch/297/4010",
-        "https://cartoony.net/watch/297/4011", "https://cartoony.net/watch/297/4012", "https://cartoony.net/watch/297/4013",
-        "https://cartoony.net/watch/297/4014", "https://cartoony.net/watch/297/4015", "https://cartoony.net/watch/297/4016",
-        "https://cartoony.net/watch/297/4017", "https://cartoony.net/watch/297/4018", "https://cartoony.net/watch/297/4019",
-        "https://cartoony.net/watch/297/4020", "https://cartoony.net/watch/297/4021", "https://cartoony.net/watch/297/4022",
-        "https://cartoony.net/watch/297/4023", "https://cartoony.net/watch/297/4024", "https://cartoony.net/watch/297/4025",
-        "https://cartoony.net/watch/297/4026", "https://cartoony.net/watch/297/4027", "https://cartoony.net/watch/297/4028",
-        "https://cartoony.net/watch/297/4029", "https://cartoony.net/watch/297/4030", "https://cartoony.net/watch/297/4031",
-        "https://cartoony.net/watch/297/4032", "https://cartoony.net/watch/297/4033", "https://cartoony.net/watch/297/4034",
-        "https://cartoony.net/watch/297/4035", "https://cartoony.net/watch/297/4036", "https://cartoony.net/watch/297/4037",
-        "https://cartoony.net/watch/297/4038", "https://cartoony.net/watch/297/4039", "https://cartoony.net/watch/297/4040",
-        "https://cartoony.net/watch/297/4041", "https://cartoony.net/watch/297/4042", "https://cartoony.net/watch/297/4043",
-        "https://cartoony.net/watch/297/4044", "https://cartoony.net/watch/297/4045", "https://cartoony.net/watch/297/4046",
-        "https://cartoony.net/watch/297/4047", "https://cartoony.net/watch/297/4048", "https://cartoony.net/watch/297/4049",
-        "https://cartoony.net/watch/297/4050", "https://cartoony.net/watch/297/4051", "https://cartoony.net/watch/297/4052",
-        "https://cartoony.net/watch/297/4053", "https://cartoony.net/watch/297/4054", "https://cartoony.net/watch/297/4055",
-        "https://cartoony.net/watch/297/4056", "https://cartoony.net/watch/297/4057", "https://cartoony.net/watch/297/4058",
-        "https://cartoony.net/watch/297/4059"
-    ];
+    // روابط الكابتن ماجد الشبح تبدأ من 4005
+    const baseId = 4005;
+    const totalEpisodes = 52; 
+    const episodeLinks = [];
+
+    for (let i = 0; i < totalEpisodes; i++) {
+        episodeLinks.push(`https://cartoony.net/watch/297/${baseId + i}`);
+    }
 
     const grid = document.getElementById('buttonsGrid');
-    const adLink = 'https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a';
+    const container = document.getElementById('videoContainer');
+    const iframe = document.getElementById('mainIframe');
+    const titleDisp = document.getElementById('epTitle');
 
     episodeLinks.forEach((link, index) => {
-        const btn = document.createElement('a');
+        const btn = document.createElement('button');
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
-        btn.href = "#"; // نمنع الانتقال المباشر للتحكم عبر JS
-        
-        btn.onclick = function(e) {
-            e.preventDefault();
-            // فتح الإعلان في نافذة جديدة
-            window.open(adLink, '_blank');
-            // فتح الحلقة في نافذة جديدة أيضاً لضمان عملها
-            window.open(link, '_blank');
+        btn.onclick = function() {
+            // الإعلان الخاص بك
+            window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
+            container.style.display = 'block';
+            iframe.src = link;
+            titleDisp.innerText = "أنت تشاهد الآن: كابتن ماجد الشبح - حلقة " + (index + 1);
+            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
         grid.appendChild(btn);
     });
